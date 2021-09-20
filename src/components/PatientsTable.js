@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container,Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -8,8 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
-import { patients } from '../data/patients';
 import { Patient } from './Patient';
+import { getPatients } from '../actions/patient';
 
 export const PatientsTable = () => {
 
@@ -25,7 +26,8 @@ export const PatientsTable = () => {
             maxWidth: 650,
             display:"flex",
             flexDirection: "column",
-            justifyContent: "center"
+            justifyContent: "center",
+            marginBottom:"10px"
         },
         title:{
             color:"#fff",
@@ -38,13 +40,13 @@ export const PatientsTable = () => {
 
     }));
     const classes = useStyles();
-
-    //State de los pacientes
-    const [patientsList, setPatients] = useState([]);
     //Cada vez que se edita un nuevo paciente renderiza el componente
     useEffect(() => {
-        setPatients(patients);
+        dispatch(getPatients());
     }, [])
+    //State de los pacientes
+    const dispatch = useDispatch()
+    const {patientsList} = useSelector(state => state)
 
 
     return (
