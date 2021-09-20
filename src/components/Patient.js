@@ -6,17 +6,8 @@ import { AiFillEdit } from "react-icons/ai";
 
 export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, finishTreatment}) => {
 
-    //Estilos de cada paciente
-    const useStyles = makeStyles((theme) => ({
-        item:{
-            marginBottom:"10px",
-            padding: "10px",
-            display:"flex",
-            justifyContent:"center",
-            width:"100%",
-            backgroundColor: theme.palette.secondary.main,
-            borderRadius:"10px"
-        },
+    //Estilos del boton
+    const useStyles = makeStyles(() => ({
         icon:{
             fontSize:"1.8rem",
             marginLeft:"5px",
@@ -29,6 +20,10 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
     }));
     const classes = useStyles();
 
+    const handleEdit = id => {
+        
+    }
+
     return (
         <TableRow key={patient.id}>
             <TableCell component="th" scope="row">{patient}</TableCell>
@@ -36,7 +31,7 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
             <TableCell align="right">{numberOfPlates}</TableCell>
             <TableCell align="right">{startTreatment}</TableCell>
             <TableCell align="right">{finishTreatment}</TableCell>
-            <TableCell align="right"><AiFillEdit className={classes.icon}/></TableCell>
+            <TableCell align="right"><AiFillEdit className={classes.icon} onClick={() => handleEdit(id)}/></TableCell>
         </TableRow>
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container,Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -39,6 +39,12 @@ export const PatientsTable = () => {
     }));
     const classes = useStyles();
 
+    //State de los pacientes
+    const [patientsList, setPatients] = useState([]);
+    //Cada vez que se edita un nuevo paciente renderiza el componente
+    useEffect(() => {
+        setPatients(patients);
+    }, [])
 
 
     return (
@@ -69,7 +75,7 @@ export const PatientsTable = () => {
                         </TableHead>
                         <TableBody>
                             {
-                                patients.map( patient => (
+                                patientsList.map( patient => (
                                     <Patient 
                                         key={ patient.id }
                                         { ...patient }
