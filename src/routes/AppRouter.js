@@ -6,14 +6,14 @@ import {
   Redirect
 } from "react-router-dom";
 import { EditPatientForm } from "../components/EditPatientForm";
-import { PatientsList } from "../components/PatientsList";
+import { PatientsTable } from "../components/PatientsTable";
 
 export const AppRouter = () => {
   return (
     <Router>
       <div>
         <Switch>
-          <Route exact path="/" component={PatientsList}/>
+          <Route exact path="/" component={PatientsTable}/>
           <Route exact path="/editPatient" component={EditPatientForm} />
           <Redirect to="/"/>
         </Switch>
