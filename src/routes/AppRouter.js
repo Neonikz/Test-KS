@@ -8,6 +8,7 @@ import {
 import { EditPatientForm } from "../components/EditPatientForm";
 import { PatientsTable } from "../components/PatientsTable";
 
+
 export const AppRouter = () => {
   return (
     <Router>

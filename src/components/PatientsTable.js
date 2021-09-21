@@ -12,14 +12,12 @@ import Paper from '@material-ui/core/Paper';
 import { Patient } from './Patient';
 import { getPatients } from '../actions/patient';
 
-export const PatientsTable = () => {
-
     //Estilos del componente
     const useStyles = makeStyles(() => ({
         component:{
             display:"flex",
             flexDirection:'column',
-            justifyContent:"center"
+            justifyContent:"center",
         },
         container: {
             width: '100%',
@@ -39,6 +37,9 @@ export const PatientsTable = () => {
         }
 
     }));
+
+export const PatientsTable = () => {
+
     const classes = useStyles();
     //Cada vez que se edita un nuevo paciente renderiza el componente
     useEffect(() => {
