@@ -30,7 +30,7 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
     const handleEdit = (id,patient, dentist, numberOfPlates, startTreatment, finishTreatment) => {
         const data = {id,patient, dentist, numberOfPlates, startTreatment, finishTreatment}
         dispatch( setActivePatient(data) );
-        history.replace('/editPatient');
+        history.push('/editPatient');
     }
 
     return (
