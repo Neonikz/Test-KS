@@ -1,16 +1,14 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { getPatientById } from '../helpers/getPatientById';
+import { useForm } from '../hooks/useForm';
 
 //Estilos del formulario
 const useStyles = makeStyles((theme) => ({
@@ -39,16 +37,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const EditPatientForm = () => {
-  const classes = useStyles();
 
-  return (
-    <div className={classes.component}>
+    const { activePatient } = useSelector( state => state );
+    const history = useHistory();
+    const classes = useStyles();
+
+    if( !activePatient ) {
+        history.replace('/')
+    }
+    const patientToEdit = getPatientById(activePatient)
+
+    //Custom hook para el manejo del formulario
+    const [ formValues, handleInputChange ] = useForm(patientToEdit);
+    const { id, patient, dentist, numberOfPlates, newStartTreatment, newFinishTreatment } = formValues;
+
+
+    return (
+        <div className={classes.component}>
 
             <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography className={classes.title} component="h1" variant="h5">
-                Editar paciente
+                    Editar paciente
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
@@ -59,6 +70,8 @@ export const EditPatientForm = () => {
                         id="patient"
                         label="Nombre del paciente"
                         name="patient"
+                        value={ patient }
+                        onChange={ handleInputChange }
                     />
                     <TextField
                         variant="outlined"
@@ -69,6 +82,8 @@ export const EditPatientForm = () => {
                         label="Odontologo"
                         type="text"
                         id="dentist"
+                        value={ dentist }
+                        onChange={ handleInputChange }
                     />
                     <TextField
                         variant="outlined"
@@ -79,13 +94,15 @@ export const EditPatientForm = () => {
                         label="Numero de placas"
                         type="number"
                         id="numberOfPlates"
+                        value={ numberOfPlates }
+                        onChange={ handleInputChange }
                     />
                     <TextField
                         id="startTreatment"
                         label="Inicio del tratamiento"
                         type="date"
                         required
-                        name="startTreatment"
+                        name="newStartTreatment"
                         margin="normal"
                         fullWidth
                         variant="outlined"
@@ -93,6 +110,8 @@ export const EditPatientForm = () => {
                             shrink: true,
                         }}
                         fullWidth
+                        value={ newStartTreatment }
+                        onChange={ handleInputChange }
                     />
                     <TextField
                         id="finishTreatment"
@@ -100,13 +119,15 @@ export const EditPatientForm = () => {
                         margin="normal"
                         required
                         type="date"
-                        name="finishTreatment"
+                        name="newFinishTreatment"
                         fullWidth
                         variant="outlined"
                         InputLabelProps={{
                         shrink: true,
                         }}
                         fullWidth
+                        value={ newFinishTreatment }
+                        onChange={ handleInputChange }
                     />
 
                     <Button
@@ -121,6 +142,6 @@ export const EditPatientForm = () => {
                 </form>
             </div>
             </Container>
-    </div>  
+        </div>  
     );
 }

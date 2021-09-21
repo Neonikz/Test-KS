@@ -42,11 +42,11 @@ export const PatientsTable = () => {
 
     const classes = useStyles();
     //Cada vez que se edita un nuevo paciente renderiza el componente
+    const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getPatients());
-    }, [])
+    }, [dispatch])
     //State de los pacientes
-    const dispatch = useDispatch()
     const {patientsList} = useSelector(state => state)
 
 
