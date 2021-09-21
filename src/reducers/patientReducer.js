@@ -13,7 +13,7 @@ export const patientReducer = (state = initialState, action) => {
         case types.getPatients:
             return{
                 ...state,
-                patientsList:[...patients]
+                patientsList: (state.patientsList.length === 0) ? [...patients] : [...state.patientsList]
             }
 
         case types.setActivePatient:
@@ -22,9 +22,15 @@ export const patientReducer = (state = initialState, action) => {
                 activePatient: action.payload
             }
 
-        case types.editPatient:{
+        case types.editPatient:
+            return{
+                ...state,
+                patientsList: state.patientsList.map(
+                    p => ( p.id === action.payload.id ) ? action.payload : p
+                )
+            }
 
-        }
+        
 
         default:
             return state;

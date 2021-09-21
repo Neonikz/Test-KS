@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import moment from "moment"
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { getPatientById } from '../helpers/getPatientById';
 import { useForm } from '../hooks/useForm';
+import Swal from 'sweetalert2';
+import { editPatient } from '../actions/patient';
 
 //Estilos del formulario
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +44,7 @@ export const EditPatientForm = () => {
     const { activePatient } = useSelector( state => state );
     const history = useHistory();
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     if( !activePatient ) {
         history.replace('/')
@@ -49,8 +53,22 @@ export const EditPatientForm = () => {
 
     //Custom hook para el manejo del formulario
     const [ formValues, handleInputChange ] = useForm(patientToEdit);
-    const { id, patient, dentist, numberOfPlates, newStartTreatment, newFinishTreatment } = formValues;
+    const { patient, dentist, numberOfPlates, startTreatment, finishTreatment } = formValues;
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        //Validaciones
+        const momentStart = moment(startTreatment);
+        const momentEnd = moment(finishTreatment);
+        if( momentStart.isSameOrAfter( momentEnd ) ){
+            return Swal.fire('Error','La fecha de finalizacion debe de ser mayor a la fecha de inicio', 'error');
+        }
+        if( !patient.trim() || !dentist.trim() || !numberOfPlates || !startTreatment || !finishTreatment ){
+            return Swal.fire('Error','Todos los campos son obligatorios','error');
+        }
+        dispatch( editPatient(formValues) )
+        history.replace('/');
+    }
 
     return (
         <div className={classes.component}>
@@ -61,7 +79,11 @@ export const EditPatientForm = () => {
                 <Typography className={classes.title} component="h1" variant="h5">
                     Editar paciente
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form 
+                    className={classes.form} 
+                    noValidate
+                    onSubmit={ handleSubmit }
+                >
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -102,7 +124,7 @@ export const EditPatientForm = () => {
                         label="Inicio del tratamiento"
                         type="date"
                         required
-                        name="newStartTreatment"
+                        name="startTreatment"
                         margin="normal"
                         fullWidth
                         variant="outlined"
@@ -110,7 +132,7 @@ export const EditPatientForm = () => {
                             shrink: true,
                         }}
                         fullWidth
-                        value={ newStartTreatment }
+                        value={ startTreatment }
                         onChange={ handleInputChange }
                     />
                     <TextField
@@ -119,14 +141,14 @@ export const EditPatientForm = () => {
                         margin="normal"
                         required
                         type="date"
-                        name="newFinishTreatment"
+                        name="finishTreatment"
                         fullWidth
                         variant="outlined"
                         InputLabelProps={{
                         shrink: true,
                         }}
                         fullWidth
-                        value={ newFinishTreatment }
+                        value={ finishTreatment }
                         onChange={ handleInputChange }
                     />
 
