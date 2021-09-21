@@ -9,8 +9,8 @@ export const getPatientById =  idPatient => {
         patient,
         dentist,
         numberOfPlates,
-        newStartTreatment,
-        newFinishTreatment
+        startTreatment: newStartTreatment,
+        finishTreatment: newFinishTreatment
     }
     return newPatient;
 }
