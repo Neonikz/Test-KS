@@ -2,7 +2,8 @@ import { patients } from "../data/patients";
 import { types } from "../types/types";
 
 const initialState = {
-    patientsList:[]
+    patientsList:[],
+    activePatient:null
 }
 
 export const patientReducer = (state = initialState, action) => {
@@ -13,6 +14,12 @@ export const patientReducer = (state = initialState, action) => {
             return{
                 ...state,
                 patientsList:[...patients]
+            }
+
+        case types.setActivePatient:
+            return{
+                ...state,
+                activePatient: action.payload
             }
 
         case types.editPatient:{

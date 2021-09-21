@@ -1,8 +1,11 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles } from '@material-ui/core';
 import { AiFillEdit } from "react-icons/ai";
+import { setActivePatient } from '../actions/patient';
+import { useHistory } from 'react-router-dom';
 
 export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, finishTreatment}) => {
 
@@ -20,8 +23,13 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
     }));
     const classes = useStyles();
 
+    const dispatch = useDispatch();
+    const history = useHistory()
+
+    //Funcion para editar el paciente
     const handleEdit = id => {
-        
+        dispatch( setActivePatient(id) );
+        history.replace('/editPatient');
     }
 
     return (
