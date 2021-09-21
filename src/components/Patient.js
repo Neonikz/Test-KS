@@ -27,8 +27,9 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
     const history = useHistory()
 
     //Funcion para editar el paciente
-    const handleEdit = id => {
-        dispatch( setActivePatient(id) );
+    const handleEdit = (id,patient, dentist, numberOfPlates, startTreatment, finishTreatment) => {
+        const data = {id,patient, dentist, numberOfPlates, startTreatment, finishTreatment}
+        dispatch( setActivePatient(data) );
         history.replace('/editPatient');
     }
 
@@ -39,7 +40,7 @@ export const Patient = ({id, patient, dentist, numberOfPlates, startTreatment, f
             <TableCell align="right">{numberOfPlates}</TableCell>
             <TableCell align="right">{startTreatment}</TableCell>
             <TableCell align="right">{finishTreatment}</TableCell>
-            <TableCell align="right"><AiFillEdit className={classes.icon} onClick={() => handleEdit(id)}/></TableCell>
+            <TableCell align="right"><AiFillEdit className={classes.icon} onClick={() => handleEdit(id,patient, dentist, numberOfPlates, startTreatment, finishTreatment)}/></TableCell>
         </TableRow>
     )
 }

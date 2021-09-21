@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { getPatientById } from '../helpers/getPatientById';
+import { formatDate } from '../helpers/formatDate';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
 import { editPatient } from '../actions/patient';
@@ -50,10 +50,18 @@ export const EditPatientForm = () => {
     if( !activePatient ) {
         history.replace('/')
     }
-    const patientToEdit = getPatientById(activePatient)
+    
+    const { newStartTreatment, newFinishTreatment } = formatDate( activePatient.startTreatment, activePatient.finishTreatment) ;
 
     //Custom hook para el manejo del formulario
-    const [ formValues, handleInputChange ] = useForm(patientToEdit);
+    const [ formValues, handleInputChange ] = useForm({
+        id:activePatient.id,
+        patient:activePatient.patient,
+        dentist:activePatient.dentist,
+        numberOfPlates:activePatient.numberOfPlates, 
+        startTreatment:newStartTreatment,
+        finishTreatment:newFinishTreatment
+    });
     const { id,patient, dentist, numberOfPlates, startTreatment, finishTreatment } = formValues;
 
     const handleSubmit = e => {
