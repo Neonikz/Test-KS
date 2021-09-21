@@ -49,7 +49,7 @@ export const EditPatientForm = () => {
 
     //Custom hook para el manejo del formulario
     const [ formValues, handleInputChange ] = useForm(patientToEdit);
-    const { id, patient, dentist, numberOfPlates, startTreatment, finishTreatment } = formValues;
+    const { id, patient, dentist, numberOfPlates, newStartTreatment, newFinishTreatment } = formValues;
 
 
     return (
@@ -102,7 +102,7 @@ export const EditPatientForm = () => {
                         label="Inicio del tratamiento"
                         type="date"
                         required
-                        name="startTreatment"
+                        name="newStartTreatment"
                         margin="normal"
                         fullWidth
                         variant="outlined"
@@ -110,7 +110,7 @@ export const EditPatientForm = () => {
                             shrink: true,
                         }}
                         fullWidth
-                        value={ startTreatment }
+                        value={ newStartTreatment }
                         onChange={ handleInputChange }
                     />
                     <TextField
@@ -119,14 +119,14 @@ export const EditPatientForm = () => {
                         margin="normal"
                         required
                         type="date"
-                        name="finishTreatment"
+                        name="newFinishTreatment"
                         fullWidth
                         variant="outlined"
                         InputLabelProps={{
                         shrink: true,
                         }}
                         fullWidth
-                        value={ finishTreatment }
+                        value={ newFinishTreatment }
                         onChange={ handleInputChange }
                     />
 
