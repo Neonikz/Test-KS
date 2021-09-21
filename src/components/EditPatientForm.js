@@ -12,6 +12,7 @@ import { getPatientById } from '../helpers/getPatientById';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
 import { editPatient } from '../actions/patient';
+import { formatDateInverse } from '../helpers/formatDateInverse';
 
 //Estilos del formulario
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,7 @@ export const EditPatientForm = () => {
 
     //Custom hook para el manejo del formulario
     const [ formValues, handleInputChange ] = useForm(patientToEdit);
-    const { patient, dentist, numberOfPlates, startTreatment, finishTreatment } = formValues;
+    const { id,patient, dentist, numberOfPlates, startTreatment, finishTreatment } = formValues;
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -66,7 +67,16 @@ export const EditPatientForm = () => {
         if( !patient.trim() || !dentist.trim() || !numberOfPlates || !startTreatment || !finishTreatment ){
             return Swal.fire('Error','Todos los campos son obligatorios','error');
         }
-        dispatch( editPatient(formValues) )
+        const { newStartTreatment, newFinishTreatment} = formatDateInverse( startTreatment,finishTreatment );
+        const patientEdited = {
+            id,
+            patient,
+            dentist,
+            numberOfPlates,
+            startTreatment:newStartTreatment,
+            finishTreatment:newFinishTreatment,
+        }
+        dispatch( editPatient(patientEdited) )
         history.replace('/');
     }
 

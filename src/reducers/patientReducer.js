@@ -13,7 +13,7 @@ export const patientReducer = (state = initialState, action) => {
         case types.getPatients:
             return{
                 ...state,
-                patientsList: (state.patientsList.length === 0) ? [...patients] : [...state.patientsList]
+                patientsList: (state.patientsList.length === 0) ?[...patients] : [...state.patientsList]
             }
 
         case types.setActivePatient:
